@@ -1,8 +1,5 @@
-﻿
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using Souvenir;
-using UnityEngine;
 
 using static Souvenir.AnswerLayout;
 
@@ -14,51 +11,40 @@ public enum SCalendar
 
 public partial class SouvenirModule
 {
-    [Handler("calendar", "Calendar", typeof(SCalendar), "Espik")]
+    [Handler("calendar", "Calendar", typeof(SCalendar), "Timwi")]
     [ManualQuestion("What was the holiday?")]
     private IEnumerator<SouvenirInstruction> ProcessCalendar(ModuleData module)
     {
         var comp = GetComponent(module, "calendar");
-
         var allHolidays = SCalendar.Holiday.GetAnswers(); // We do not get the names directly from the module due to typos, wrong apostrophes, and various inconsistencies from the manual
-
-        // Used to note the months the holidays are in
-        var holidayMonths = new Dictionary<int, int>
-        {
-            [0] = 3, // April Fools’ - April
-            [1] = 0, // Australia Day - January
-            [2] = 6, // Bastille Day - July
-            [3] = 11, // Christmas Eve - December
-            [4] = 4, // Cinco de Mayo - May
-            [5] = 9, // Day of German Unity - October
-            [6] = 9, // Day of the Dead - October
-            [7] = 3, // Earth Day - April
-            [8] = 0, // Epiphany - January
-            [10] = 1, // Groundhog Day - Feburary
-            [11] = 10, // Guy Fawkes Night - November
-            [13] = 5, // Republic Day - June
-            [14] = 2, // Saint Patrick’s Day - March
-            [15] = 1, // Valentine’s Day - Feburary
-            [16] = 10, // Veterans Day - November
-            [17] = 0  // World Braille Day - January
-        };
 
         yield return WaitForSolve;
 
         var holiday = GetIntField(comp, "holiday").Get(min: 0, max: 17);
 
-        // Checks if the holiday is in the submitted month. If it is, we don't ask a question
+        // Don’t ask a question if the holiday is in the submitted month
         var correctMonth = GetIntField(comp, "correctMonthIndex").Get(min: 0, max: 11);
-        var valid = true;
-
-        if (holiday == 9 && (correctMonth == 3 || correctMonth == 4)) // Golden Week - April & May
-            valid = false;
-        else if (holiday == 12 && (correctMonth == 11 || correctMonth == 0)) // Kwanzaa - December & January
-            valid = false;
-        else if (holidayMonths[holiday] == correctMonth) // Every other holiday
-            valid = false;
-
-        if (!valid)
+        if (holiday switch
+        {
+            0 => correctMonth is 3,        // April Fools’ — April
+            1 => correctMonth is 0,        // Australia Day — January
+            2 => correctMonth is 6,        // Bastille Day — July
+            3 => correctMonth is 11,       // Christmas Eve — December
+            4 => correctMonth is 4,        // Cinco de Mayo — May
+            5 => correctMonth is 9,        // Day of German Unity — October
+            6 => correctMonth is 9,        // Day of the Dead — October
+            7 => correctMonth is 3,        // Earth Day — April
+            8 => correctMonth is 0,        // Epiphany — January
+            9 => correctMonth is 3 or 4,   // Golden Week — April & May
+            10 => correctMonth is 1,       // Groundhog Day — Feburary
+            11 => correctMonth is 10,      // Guy Fawkes Night — November
+            12 => correctMonth is 0 or 11, // Kwanzaa — December & January
+            13 => correctMonth is 5,       // Republic Day — June
+            14 => correctMonth is 2,       // Saint Patrick’s Day — March
+            15 => correctMonth is 1,       // Valentine’s Day — Feburary
+            16 => correctMonth is 10,      // Veterans Day — November
+            _ => correctMonth is 0         // World Braille Day — January
+        })
             yield return legitimatelyNoQuestion(module, "The holiday is present in the submitted month.");
 
         yield return question(SCalendar.Holiday).Answers(allHolidays[holiday]);
