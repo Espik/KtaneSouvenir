@@ -21,6 +21,9 @@ public partial class SouvenirModule
     {
         var comp = GetComponent(module, "cheepCheckoutScript");
         var fldUnicorn = GetField<bool>(comp, "unicorn");
+        var birdPitches = GetField<string>(comp, "SouvenirBirdsPitches");
+
+        yield return WaitForSolve;
 
         if (_cheepCheckoutAudio is null)
         {
@@ -28,7 +31,7 @@ public partial class SouvenirModule
             var lmh = new[] { "low", "med", "high" };
             var chirpClips = lmh.Select(prefix => Enumerable.Range(1, 3).Select(suffix => Sounds.GetForeignClip("cheepCheckout", prefix + suffix)).ToArray()).ToArray();
 
-            const string data = "Auklet=MML;Bluebird=HLM;Chickadee=MMH;Dove=MLH;Egret=LLM;Finch=MMM;Godwit=LMM;Hummingbird=LML;Ibis=HLL;Jay=LHL;Kinglet=LHM;Loon=MHM;Magpie=HMH;Nuthatch=LLH;Oriole=MLM;Pipit=LHH;Quail=MHH;Raven=HMM;Shrike=HML;Thrush=HHM;Umbrellabird=HLH;Vireo=MLL;Warbler=MHL;Xantus’s Hummingbird=LMH;Yellowlegs=HHH;Zigzag Heron=HHL";
+            string data = birdPitches.Get();
             foreach (var str in data.Split(';'))
             {
                 if (str.Split('=') is { Length: 2 } parts && parts[0] is { } name && parts[1] is { } chirps)
@@ -40,13 +43,11 @@ public partial class SouvenirModule
             }
         }
 
-        yield return WaitForSolve;
-
         if (fldUnicorn.Get())
             yield return legitimatelyNoQuestion(module, "The unicorn applied.");
 
-        var birdNames = GetListField<string>(comp, "birdNames").Get(expectedLength: 27, validator: v => v != "[Unicorn Bastard]" && !_cheepCheckoutAudio.ContainsKey(v) ? "Invalid bird name" : null);
-        var shuffledList = GetListField<int>(comp, "numberList").Get(expectedLength: 27);
+        var birdNames = GetArrayField<string>(comp, "ruleseededBirdNames").Get(expectedLength: 27, validator: v => v != "[Unicorn Bastard]" && !_cheepCheckoutAudio.ContainsKey(v) ? "Invalid bird name" : null);
+        var shuffledList = GetArrayField<int>(comp, "numberArray").Get(expectedLength: 27);
         var birdsPresent = shuffledList.Take(5).Where(ix => ix < 26).Select(ix => _cheepCheckoutAudio[birdNames[ix]]).ToArray();
 
         yield return question(SCheepCheckout.Birds).Answers(birdsPresent, all: _cheepCheckoutAudio.Values.ToArray());
