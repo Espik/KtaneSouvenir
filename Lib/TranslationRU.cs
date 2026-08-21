@@ -11852,24 +11852,6 @@ public class Translation_ru : TranslationBase<TranslationInfo<Translation_ru.Que
             },
         },
 
-        // Noise Identification
-        [typeof(SNoiseIdentification)] = new()
-        {
-            NeedsTranslation = true,
-            ManualQuestions = new()
-            {
-                ["What was the first displayed noise type?"] = "What was the first displayed noise type?",
-            },
-            Questions = new()
-            {
-                [SNoiseIdentification.Noises] = new()
-                {
-                    // English: What was the first displayed noise type in {0}?
-                    Question = "What was the first displayed noise type in {0}?",
-                },
-            },
-        },
-
         // ❖
         [typeof(SNonverbalSimon)] = new()
         {

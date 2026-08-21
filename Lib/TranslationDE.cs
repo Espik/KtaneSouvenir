@@ -12027,25 +12027,6 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
             },
         },
 
-        // Noise Identification
-        [typeof(SNoiseIdentification)] = new()
-        {
-            ModuleName = "Rauschen-Identifikation",
-            Gender = Gender.Feminine,
-            ManualQuestions = new()
-            {
-                ["What was the first displayed noise type?"] = "Welcher Klangtyp war zuerst zu sehen?",
-            },
-            Questions = new()
-            {
-                [SNoiseIdentification.Noises] = new()
-                {
-                    // English: What was the first displayed noise type in {0}?
-                    Question = "Welcher Rauschtyp wurde bei {0} zuerst angezeigt?",
-                },
-            },
-        },
-
         // ❖
         [typeof(SNonverbalSimon)] = new()
         {

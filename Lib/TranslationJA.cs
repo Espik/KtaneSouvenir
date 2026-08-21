@@ -11693,24 +11693,6 @@ public class Translation_ja : TranslationBase<TranslationInfo<QuestionTranslatio
             },
         },
 
-        // Noise Identification
-        [typeof(SNoiseIdentification)] = new()
-        {
-            NeedsTranslation = true,
-            ManualQuestions = new()
-            {
-                ["What was the first displayed noise type?"] = "最初に表示されたノイズの種類は？",
-            },
-            Questions = new()
-            {
-                [SNoiseIdentification.Noises] = new()
-                {
-                    // English: What was the first displayed noise type in {0}?
-                    Question = "{0}で最初に表示されたノイズの種類は？",
-                },
-            },
-        },
-
         // ❖
         [typeof(SNonverbalSimon)] = new()
         {
