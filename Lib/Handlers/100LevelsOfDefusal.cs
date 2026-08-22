@@ -30,7 +30,7 @@ public partial class SouvenirModule
 
         var dict = "Ba B,Ca C,Da D,Fan F,Ga G,Han H,Ja J,Ka K,Lan L,Man M,Nan N,Pa P,Qa Q,Ran R,San S,Ta T,Va V,Wa W,Xan X,Ya Y,Za Z"
             .Split(',').ToDictionary(s => s[0], s => s.Substring(1));
-        foreach (var ltr in letters)
+        foreach (var ltr in letters.Distinct())
             yield return new Discriminator(S100LevelsOfDefusal.Discriminator, $"100lod-{ltr}", null, args: [dict[ltr[0]]], avoidAnswers: [ltr]);
     }
 }
