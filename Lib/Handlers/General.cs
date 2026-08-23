@@ -230,20 +230,20 @@ public partial class SouvenirModule
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswers(text, new AnswerGenerator.Strings(text.Length, '1', '8')));
 
-            // Gray Cipher, Page 1, Screen 3: Digits 1–2, 1-3, 1–4 1–5, or 1-6 in some order
+            // Gray Cipher, Page 1, Screen 3: digits 1–2, 1-3, 1–4, 1–5, or 1-6 in some order
             else if (question.Equals(SGrayCipher.QScreen) && page == 0 && screen == 2)
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswersFnc(text, () => Rnd.Range(0, 5) switch
                     {
-                        0 => "12".ToCharArray().Shuffle().JoinString(),
-                        1 => "123".ToCharArray().Shuffle().JoinString(),
-                        2 => "1234".ToCharArray().Shuffle().JoinString(),
-                        3 => "12345".ToCharArray().Shuffle().JoinString(),
-                        _ => "123456".ToCharArray().Shuffle().JoinString()
+                        0 => new string("12".ToCharArray().Shuffle()),
+                        1 => new string("123".ToCharArray().Shuffle()),
+                        2 => new string("1234".ToCharArray().Shuffle()),
+                        3 => new string("12345".ToCharArray().Shuffle()),
+                        _ => new string("123456".ToCharArray().Shuffle())
                     }));
 
-            // Yellow Cipher special case: 8-5-7-20
+            // Yellow Cipher special case: e.g. 8-5-7-20
             else if (Regex.IsMatch(text, @"^\d+-\d+-\d+-\d+$"))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")

@@ -14735,7 +14735,7 @@ public class Translation_ja : TranslationBase<TranslationInfo<QuestionTranslatio
             ModuleName = "RGBシークエンス",
             ManualQuestions = new()
             {
-                ["What were the colors of each button?"] = "各ボタンの色は？",
+                ["What were the colors of each LED?"] = "What were the colors of each LED?",
             },
             Questions = new()
             {

@@ -15161,12 +15161,11 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
         // RGB Sequences
         [typeof(SRGBSequences)] = new()
         {
-            NeedsTranslation = true,
             ModuleName = "RGB-Folgen",
             Gender = Gender.Plural,
             ManualQuestions = new()
             {
-                ["What were the colors of each button?"] = "Welche Taste hatte welche Farbe?",
+                ["What were the colors of each LED?"] = "Welche LED hatte welche Farbe?",
             },
             Questions = new()
             {
@@ -15174,7 +15173,7 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
                 {
                     // English: What color was the LED at index {1} in {0}?
                     // Example: What color was the LED at index 0 in RGB Sequences?
-                    Question = "What color was the LED at index {1} in {0}?",
+                    Question = "Welche Farbe hatte bei {0} die LED mit Index {1}?",
                     Answers = new()
                     {
                         ["Black"] = "Schwarz",

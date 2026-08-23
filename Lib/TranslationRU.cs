@@ -14901,7 +14901,7 @@ public class Translation_ru : TranslationBase<TranslationInfo<Translation_ru.Que
             NeedsTranslation = true,
             ManualQuestions = new()
             {
-                ["What were the colors of each button?"] = "Какие цвета были на каждой кнопке?",
+                ["What were the colors of each LED?"] = "What were the colors of each LED?",
             },
             Questions = new()
             {
