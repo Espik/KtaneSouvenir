@@ -64,17 +64,21 @@ public partial class SouvenirModule
         var fldText = GetProperty<string>(fldScreens.Get(validator: v => v.Count == 0 ? "expected at least one screen per page" : null)[0], "Text", isPublic: true);
         var fldAvoid = GetProperty<bool>(fldScreens.Get(validator: v => v.Count == 0 ? "expected at least one screen per page" : null)[0], "SouvenirAvoid", isPublic: true);
 
+        var isUltimateCipher = question.Equals(SUltimateCipher.QScreen);
+        var fldCipherLetter = isUltimateCipher ? GetProperty<string>(pages[0], "ColorblindLetter", isPublic: true) : null;
+
         var allWordsType = comp.GetType().Assembly.GetType("Words.Data") ?? throw new AbandonModuleException("I cannot find the Words.Data type.");
         var allWordsObj = Activator.CreateInstance(allWordsType);
         var allWords = GetArrayField<List<string>>(allWordsObj, "_allWords").Get(expectedLength: 5);
 
-        var pagesList = new List<(int page, int screen, string text)>();
+        var pagesList = new List<(int page, int screen, string text, string cipherLetter)>();
         for (var pageIx = 0; pageIx < pages.Count; pageIx++)
         {
             var screenObjs = fldScreens.GetFrom(pages[pageIx], validator: v => v.Count == 0 ? "expected at least one screen per page" : null);
+            var cipherLetter = isUltimateCipher ? fldCipherLetter.GetFrom(pages[pageIx]) : null;
             for (var scrIx = 0; scrIx < screenObjs.Count; scrIx++)
                 if (!fldAvoid.GetFrom(screenObjs[scrIx]) && fldText.GetFrom(screenObjs[scrIx], nullAllowed: true) is { } text && !string.IsNullOrEmpty(text))
-                    pagesList.Add((pageIx, scrIx, text));
+                    pagesList.Add((pageIx, scrIx, text, cipherLetter));
         }
 
         foreach (var obj in processColoredOrCompressionCiphers(question, discriminator, pagesList, allWords))
@@ -92,18 +96,18 @@ public partial class SouvenirModule
         var allWordsObj = Activator.CreateInstance(allWordsType);
         var allWords = GetField<List<string>[]>(allWordsObj, "allWords").Get();
 
-        var pagesList = new List<(int page, int screen, string text)>();
+        var pagesList = new List<(int page, int screen, string text, string cipherLetter)>();
         for (var pageIx = 0; pageIx < pages.Length; pageIx++)
             for (var scrIx = 0; scrIx < pages[pageIx].Length; scrIx++)
                 if (!string.IsNullOrEmpty(pages[pageIx][scrIx]))
-                    pagesList.Add((pageIx, scrIx, pages[pageIx][scrIx]));
+                    pagesList.Add((pageIx, scrIx, pages[pageIx][scrIx], null));
 
         foreach (var obj in processColoredOrCompressionCiphers(question, discriminator, pagesList, allWords))
             yield return obj;
     }
 
     // Used by all colored ciphers, Ultimate Cipher, and the compression ciphers
-    private IEnumerable<SouvenirInstruction> processColoredOrCompressionCiphers(Enum question, Enum discriminator, IEnumerable<(int page, int screen, string text)> screenTexts, List<string>[] wordLists)
+    private IEnumerable<SouvenirInstruction> processColoredOrCompressionCiphers(Enum question, Enum discriminator, IEnumerable<(int page, int screen, string text, string cipherLetter)> screenTexts, List<string>[] wordLists)
     {
         string[] generateWrongAnswers(string correctAnswer, AnswerGeneratorAttribute<string> gen)
         {
@@ -133,7 +137,7 @@ public partial class SouvenirModule
         var screenNames = new[] { "top", "middle", "bottom" };
         var romanNumerals = new[] { "I", "II", "III", "IV", "V", "VI", "VII", "VIII" };
 
-        foreach (var (page, screen, text) in screenTexts)
+        foreach (var (page, screen, text, cipherLetter) in screenTexts)
         {
             yield return new Discriminator(discriminator, $"{page}-{screen}", text, [text, screenNames[screen], (page + 1).ToString()]);
 
@@ -190,7 +194,8 @@ public partial class SouvenirModule
                     .Answers(text, preferredWrong: generateWrongAnswersFnc(text, () => $"{Rnd.Range(0, 64)} ? {Rnd.Range(0, 64)} = {Rnd.Range(0, 64)}"));
 
             // Maroon Cipher, Page 1, Screen 2: Digits 1–3, 1–4 or 1–5 in some order
-            else if (question.Equals(SMaroonCipher.QScreen) && page == 0 && screen == 1)
+            else if ((question.Equals(SMaroonCipher.QScreen) && page == 0 && screen == 1)
+                    || (cipherLetter == "Q" && screen == 1 && Regex.IsMatch(text, @"^\d+$")))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswersFnc(text, () => Rnd.Range(0, 3) switch
@@ -201,37 +206,42 @@ public partial class SouvenirModule
                     }));
 
             // Violet Cipher, Page 1, Screen 3: only specific numbers are possible
-            else if (question.Equals(SVioletCipher.QScreen) && page == 0 && screen == 2)
+            else if ((question.Equals(SVioletCipher.QScreen) && page == 0 && screen == 2)
+                    || (cipherLetter == "V" && screen == 2))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswers(text, new AnswerGenerator.Strings(["1-2", "1-6"])));
 
             // Blue Cipher, Page 1, Screen 2: only digits 1-3
-            else if (question.Equals(SBlueCipher.QScreen) && page == 0 && screen == 1)
+            else if ((question.Equals(SBlueCipher.QScreen) && page == 0 && screen == 1)
+                    || (cipherLetter == "B" && screen == 1))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswers(text, new AnswerGenerator.Strings("6*1-3")));
 
             // Blue Cipher, Page 1, Screen 3: only digits 1-9
-            else if (question.Equals(SBlueCipher.QScreen) && page == 0 && screen == 2)
+            else if ((question.Equals(SBlueCipher.QScreen) && page == 0 && screen == 2)
+                    || (cipherLetter == "B" && screen == 2))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswers(text, new AnswerGenerator.Strings("6*1-9")));
 
             // White Cipher, Page 1, Screen 2: only digits 0-8
-            else if (question.Equals(SWhiteCipher.QScreen) && page == 0 && screen == 1)
+            else if ((question.Equals(SWhiteCipher.QScreen) && page == 0 && screen == 1)
+                    || (cipherLetter == "W" && screen == 1 && Regex.IsMatch(text, @"^\d+$")))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswers(text, new AnswerGenerator.Strings(text.Length, '0', '8')));
 
             // Yellow Cipher, Page 1, Screens 2-3 and Page 2, Screen 1: only digits 1-8
-            else if (question.Equals(SYellowCipher.QScreen) && ((page == 0 && screen == 1) || (page == 0 && screen == 2) || (page == 1 && screen == 0)))
+            else if ((question.Equals(SYellowCipher.QScreen) || cipherLetter == "Y") && Regex.IsMatch(text, @"^\d+$"))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswers(text, new AnswerGenerator.Strings(text.Length, '1', '8')));
 
             // Gray Cipher, Page 1, Screen 3: digits 1–2, 1-3, 1–4, 1–5, or 1-6 in some order
-            else if (question.Equals(SGrayCipher.QScreen) && page == 0 && screen == 2)
+            else if ((question.Equals(SGrayCipher.QScreen) && page == 0 && screen == 2)
+                    || (cipherLetter == "A" && screen == 2))
                 yield return this.question(question, args: [screenNames[screen], (page + 1).ToString()])
                     .AvoidDiscriminators($"{page}-{screen}")
                     .Answers(text, preferredWrong: generateWrongAnswersFnc(text, () => Rnd.Range(0, 5) switch
