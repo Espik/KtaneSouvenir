@@ -14448,6 +14448,7 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
         // Orange Hexabuttons
         [typeof(SOrangeHexabuttons)] = new()
         {
+            NeedsTranslation = true,
             ModuleName = "Orangene Hexatasten",
             ModuleNameDative = "Orangenen Hexatasten",
             Gender = Gender.Plural,
@@ -14461,6 +14462,16 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
                 {
                     // English: What was the cipher used in {0}?
                     Question = "Welche Chiffre kam bei {0} zum Einsatz?",
+                    Answers = new()
+                    {
+                        ["Atbash"] = "Atbash",
+                        ["Caesar"] = "Caesar",
+                        ["Condi"] = "Condi",
+                        ["Monoalphabetic"] = "Monoalphabetic",
+                        ["Porta"] = "Porta",
+                        ["Ragbaby"] = "Ragbaby",
+                        ["Vigenere"] = "Vigenere",
+                    },
                 },
             },
         },
@@ -22325,6 +22336,7 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
         // White Hexabuttons
         [typeof(SWhiteHexabuttons)] = new()
         {
+            NeedsTranslation = true,
             ModuleName = "Weiße Hexatasten",
             ModuleNameDative = "Weißen Hexatasten",
             Gender = Gender.Plural,
@@ -22338,6 +22350,15 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
                 {
                     // English: What was the color of the center button in {0}?
                     Question = "Welche Farbe hatte bei {0} die mittlere Taste?",
+                    Answers = new()
+                    {
+                        ["Red"] = "Red",
+                        ["Orange"] = "Orange",
+                        ["Yellow"] = "Yellow",
+                        ["Green"] = "Green",
+                        ["Blue"] = "Blue",
+                        ["Purple"] = "Purple",
+                    },
                 },
             },
         },

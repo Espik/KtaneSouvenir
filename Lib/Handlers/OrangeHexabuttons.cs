@@ -6,7 +6,7 @@ using static Souvenir.AnswerLayout;
 public enum SOrangeHexabuttons
 {
     // Although Vigenère is technically how the cipher name is spelled, the module does not include the diacritic.
-    [Question("What was the cipher used in {0}?", TwoColumns4Answers, "Atbash", "Caesar", "Condi", "Monoalphabetic", "Porta", "Ragbaby", "Vigenere")]
+    [Question("What was the cipher used in {0}?", TwoColumns4Answers, "Atbash", "Caesar", "Condi", "Monoalphabetic", "Porta", "Ragbaby", "Vigenere", TranslateAnswers = true)]
     QCipher
 }
 

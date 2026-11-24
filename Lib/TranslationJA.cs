@@ -14074,6 +14074,16 @@ public class Translation_ja : TranslationBase<TranslationInfo<QuestionTranslatio
                 {
                     // English: What was the cipher used in {0}?
                     Question = "What was the cipher used in {0}?",
+                    Answers = new()
+                    {
+                        ["Atbash"] = "Atbash",
+                        ["Caesar"] = "Caesar",
+                        ["Condi"] = "Condi",
+                        ["Monoalphabetic"] = "Monoalphabetic",
+                        ["Porta"] = "Porta",
+                        ["Ragbaby"] = "Ragbaby",
+                        ["Vigenere"] = "Vigenere",
+                    },
                 },
             },
         },
@@ -21780,6 +21790,15 @@ public class Translation_ja : TranslationBase<TranslationInfo<QuestionTranslatio
                 {
                     // English: What was the color of the center button in {0}?
                     Question = "What was the color of the center button in {0}?",
+                    Answers = new()
+                    {
+                        ["Red"] = "Red",
+                        ["Orange"] = "Orange",
+                        ["Yellow"] = "Yellow",
+                        ["Green"] = "Green",
+                        ["Blue"] = "Blue",
+                        ["Purple"] = "Purple",
+                    },
                 },
             },
         },

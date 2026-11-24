@@ -5,7 +5,7 @@ using static Souvenir.AnswerLayout;
 
 public enum SWhiteHexabuttons
 {
-    [Question("What was the color of the center button in {0}?", ThreeColumns6Answers, "Red", "Orange", "Yellow", "Green", "Blue", "Purple")]
+    [Question("What was the color of the center button in {0}?", ThreeColumns6Answers, "Red", "Orange", "Yellow", "Green", "Blue", "Purple", TranslateAnswers = true)]
     QCenter
 }
 
