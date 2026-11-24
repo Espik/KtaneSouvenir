@@ -16538,25 +16538,6 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
             },
         },
 
-        // RNG Crystal
-        [typeof(SRNGCrystal)] = new()
-        {
-            ModuleName = "RNG-Kristall",
-            Gender = Gender.Masculine,
-            ManualQuestions = new()
-            {
-                ["Where were the taps?"] = "Wo waren die Taps?",
-            },
-            Questions = new()
-            {
-                [SRNGCrystal.Taps] = new()
-                {
-                    // English: Which bit had a tap in {0}? (The output after shifting is at bit 0.)
-                    Question = "Welches Bit hatte bei {0} einen Tap? (Das Ergebnis nach Verschiebung ist in Bit 0.)",
-                },
-            },
-        },
-
         // Robo-Scanner
         [typeof(SRoboScanner)] = new()
         {
@@ -19768,23 +19749,6 @@ public class Translation_de : TranslationBase<Translation_de.TranslationInfo_de>
                         ["clubs"] = "Kreuz",
                         ["diamonds"] = "Karo",
                     },
-                },
-            },
-        },
-
-        // Superparsing
-        [typeof(SSuperparsing)] = new()
-        {
-            ManualQuestions = new()
-            {
-                ["What was the displayed word?"] = "Welches Wort war auf dem Display?",
-            },
-            Questions = new()
-            {
-                [SSuperparsing.Displayed] = new()
-                {
-                    // English: What was the displayed word in {0}?
-                    Question = "Welches Wort war bei {0} auf dem Display?",
                 },
             },
         },

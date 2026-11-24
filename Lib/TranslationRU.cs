@@ -16321,24 +16321,6 @@ public class Translation_ru : TranslationBase<TranslationInfo<Translation_ru.Que
             },
         },
 
-        // RNG Crystal
-        [typeof(SRNGCrystal)] = new()
-        {
-            NeedsTranslation = true,
-            ManualQuestions = new()
-            {
-                ["Where were the taps?"] = "Where were the taps?",
-            },
-            Questions = new()
-            {
-                [SRNGCrystal.Taps] = new()
-                {
-                    // English: Which bit had a tap in {0}? (The output after shifting is at bit 0.)
-                    Question = "Which bit had a tap in {0} (the output after shifting is at bit 0)?",
-                },
-            },
-        },
-
         // Robo-Scanner
         [typeof(SRoboScanner)] = new()
         {
@@ -19496,23 +19478,6 @@ public class Translation_ru : TranslationBase<TranslationInfo<Translation_ru.Que
                         ["clubs"] = "clubs",
                         ["diamonds"] = "diamonds",
                     },
-                },
-            },
-        },
-
-        // Superparsing
-        [typeof(SSuperparsing)] = new()
-        {
-            ManualQuestions = new()
-            {
-                ["What was the displayed word?"] = "Какое слово было показано?",
-            },
-            Questions = new()
-            {
-                [SSuperparsing.Displayed] = new()
-                {
-                    // English: What was the displayed word in {0}?
-                    Question = "Какое слово было показано {0}?",
                 },
             },
         },

@@ -16087,24 +16087,6 @@ public class Translation_ja : TranslationBase<TranslationInfo<QuestionTranslatio
             },
         },
 
-        // RNG Crystal
-        [typeof(SRNGCrystal)] = new()
-        {
-            ModuleName = "乱数クリスタル",
-            ManualQuestions = new()
-            {
-                ["Where were the taps?"] = "タップの位置は？",
-            },
-            Questions = new()
-            {
-                [SRNGCrystal.Taps] = new()
-                {
-                    // English: Which bit had a tap in {0}? (The output after shifting is at bit 0.)
-                    Question = "{0}でタップがあったビットは(点線の位置はビット0)？",
-                },
-            },
-        },
-
         // Robo-Scanner
         [typeof(SRoboScanner)] = new()
         {
@@ -19276,24 +19258,6 @@ public class Translation_ja : TranslationBase<TranslationInfo<QuestionTranslatio
                         ["clubs"] = "クラブ",
                         ["diamonds"] = "ダイヤ",
                     },
-                },
-            },
-        },
-
-        // Superparsing
-        [typeof(SSuperparsing)] = new()
-        {
-            ModuleName = "超解析",
-            ManualQuestions = new()
-            {
-                ["What was the displayed word?"] = "表示された単語は？",
-            },
-            Questions = new()
-            {
-                [SSuperparsing.Displayed] = new()
-                {
-                    // English: What was the displayed word in {0}?
-                    Question = "{0}で表示された単語は？",
                 },
             },
         },
